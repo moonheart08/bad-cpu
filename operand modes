@@ -1,0 +1,17 @@
+00000 [ ] (RA), RB              |
+00001 [ ] RA, (RB)              |
+00010 [ ] (RA)+, RB             |
+00011 [ ] RA, (RB)+             |
+00100 [ ] -(RA), RB             |
+00101 [ ] RA, -(RB)             |
+00110 [ ] RA, RB
+00111 [ ] RA, RB
+01000 [1] (RA + W), RB          |
+01001 [1] RA, (RB + W)          |
+01010 [1] (RA + RC * N + X), RB | Layed out as so: 0bCCCNNXXXXXXXXXXX
+01011 [1] RA, (RA + RC * N + X) | X is sign extended. if N == 4, Reserved Operand.
+01100 [ ] RAx, RB               |
+01101 [ ] RA, RBx               |
+01110 [1] RA, Imm               |
+01111 [1] (RA, Imm), RB         | Immediate is only used for RA's read. Writing RA is done as normal.
+1xxxx [x] Above, but target uses alternate register set.
