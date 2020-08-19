@@ -4,22 +4,23 @@ from nmigen.back.pysim import Simulator
 
 testee = CPU()
 
-def test_for_req():
-    if ((yield testee.read_en) == 1):
-        yield testee.read_ack.eq(1)
-    else:
-        yield testee.read_ack.eq(0)
-    yield
-
 def bench():
+    yield testee.registers._array[0].eq(2)
+    yield testee.fetcher.ext_data_bus.eq(0x30003000)
+    yield testee.fetcher.ext_read_ack.eq(1)
     yield
-    assert ((yield testee.read_en) == 1)
-    yield testee.data_bus_r.eq(0b00110_000_000_00000)
-    for i in range(0, 16):
-        yield from test_for_req()
+    yield
+    yield
+    yield
+    yield
+    yield
+    yield
+    yield
+    yield
+    yield
 
 sim = Simulator(testee)
 sim.add_clock(1e-6)
 sim.add_sync_process(bench)
-with sim.write_vcd("cpu.vcd", gtkw_file="cpu.gtkw", traces=[testee.pc, testee.data_bus_r, testee.data_bus_w, testee.read_en, testee.read_ack, testee.write_en, testee.write_ack, testee.current_instr, testee.can_fetch, testee.fetch_done]):
+with sim.write_vcd("cpu.vcd", gtkw_file="cpu.gtkw", traces=[testee.fetcher.available, testee.fetcher.ext_addr_bus, testee.fetcher.ext_data_bus, testee.fetcher.instr_bus_r]):
     sim.run()
